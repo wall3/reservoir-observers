@@ -89,7 +89,6 @@ def train(u_t, s_t, A, W_in, N, M, P, training_time, alpha, bias, beta, time_ste
     temp_r = np.vstack(np.zeros(N))
     for t in range(K):
         temp_r = (1-alpha) * temp_r + alpha * np.tanh((np.dot(A, temp_r)) + np.dot(W_in, np.vstack(u_t[t])) + bias)
-        print(temp_r.shape)
         if t > K - training_length:
             k = t - K + training_length
             R[:,k] = temp_r.flatten()

@@ -35,6 +35,37 @@ W_in = reservoir.gen_Win(NODES, len(INPUTS), SIGMA)
 W_out, R, rbar, sbar = reservoir.train(input_train, output_train, A, W_in, NODES, len(INPUTS), len(OUTPUTS), TRAINING_TIME, LEAKAGE_RATE, BIAS_CONSTANT, BETA, TIME_STEP)
 s_t = reservoir.test(input_test, W_out, A, W_in, NODES, len(INPUTS), len(OUTPUTS), LEAKAGE_RATE, BIAS_CONSTANT, R, rbar, sbar)
 
+print("RMS error in calculation of y: ", np.sqrt(np.mean((s_t[0,:]-output_test[:1000, 0])**2)))
+print("RMS error in calculation of z: ", np.sqrt(np.mean((s_t[1,:]-output_test[:1000, 1])**2)))
+
+
+# This block of code is used to test the variability of the ridge regression parameter.
+# betas = [0, 1e-10, 1e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1]
+# RMSy = np.zeros(12)
+# RMSz = np.zeros(12)
+# for idx, BETA in enumerate(betas):
+#     W_out, R, rbar, sbar = reservoir.train(input_train, output_train, A, W_in, NODES, len(INPUTS), len(OUTPUTS), TRAINING_TIME, LEAKAGE_RATE, BIAS_CONSTANT, BETA, TIME_STEP)
+#     s_t = reservoir.test(input_test, W_out, A, W_in, NODES, len(INPUTS), len(OUTPUTS), LEAKAGE_RATE, BIAS_CONSTANT, R, rbar, sbar)
+#     RMSy[idx] = np.sqrt(np.mean((s_t[0,:]-output_test[:1000, 0])**2))
+#     RMSz[idx] = np.sqrt(np.mean((s_t[1,:]-output_test[:1000, 1])**2))
+#
+# print(RMSy)
+# print(RMSz)
+#
+# fig = plt.figure()
+# plt.subplot(2,1,1)
+# plt.loglog(betas, RMSy)
+# plt.title("RMSE in the y-component")
+# plt.ylabel('RMS')
+#
+# plt.subplot(2,1,2)
+# plt.loglog(betas, RMSz)
+# plt.title("RMSE in the z-component")
+# plt.ylabel('RMS')
+# plt.xlabel('beta')
+#
+# plt.show()
+
 # Visualize
 t = np.arange(0, TEST_TIME, TIME_STEP)
 
